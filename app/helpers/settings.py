@@ -5,7 +5,7 @@ import re
 from configparser import NoOptionError, NoSectionError
 
 from helpers.singleton import singleton
-from helpers.utils import file_exists
+import helpers.utils
 
 parser = argparse.ArgumentParser()
 
@@ -15,19 +15,37 @@ daemon_parser = subparsers.add_parser('daemon')
 tests_parser = subparsers.add_parser('tests')
 
 # Interactive mode - options
-interactive_parser.add_argument("--config", action='append', type=lambda x: file_exists(interactive_parser, x),
-                                help="Configuration file location", required=True)
-interactive_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
+interactive_parser.add_argument("--config",
+                                action='append',
+                                type=lambda x: helpers.utils.file_exists(interactive_parser, x),
+                                help="Configuration file location",
+                                required=True)
+interactive_parser.add_argument("--use-cases",
+                                action='append',
+                                help="Additional use cases location",
+                                required=True)
 
 # Daemon mode - options
-daemon_parser.add_argument("--config", action='append', type=lambda x: file_exists(daemon_parser, x),
-                           help="Configuration file location", required=True)
-daemon_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
+daemon_parser.add_argument("--config",
+                           action='append',
+                           type=lambda x: helpers.utils.file_exists(daemon_parser, x),
+                           help="Configuration file location",
+                           required=True)
+daemon_parser.add_argument("--use-cases",
+                           action='append',
+                           help="Additional use cases location",
+                           required=True)
 
 # Tests mode - options
-tests_parser.add_argument("--config", action='append',  type=lambda x: file_exists(tests_parser, x),
-                          help="Configuration file location", required=True)
-tests_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
+tests_parser.add_argument("--config",
+                          action='append',
+                          type=lambda x: helpers.utils.file_exists(tests_parser, x),
+                          help="Configuration file location",
+                          required=True)
+tests_parser.add_argument("--use-cases",
+                          action='append',
+                          help="Additional use cases location",
+                          required=True)
 
 
 @singleton

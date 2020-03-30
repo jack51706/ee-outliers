@@ -17,13 +17,13 @@ tests_parser = subparsers.add_parser('tests')
 
 def is_valid_file(parser, arg):
     if not os.path.exists(arg):
-        parser.error("The file %s does not exist!" % arg)
+        parser.error("No such file: '%s'" % arg)
     else:
         return arg  # return file location
 
 
 # Interactive mode - options
-interactive_parser.add_argument("--config", action='append', type=lambda x: is_valid_file(parser, x),
+interactive_parser.add_argument("--config", action='append', type=lambda x: is_valid_file(interactive_parser, x),
                                 help="Configuration file location", required=True)
 interactive_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
 

@@ -1,4 +1,3 @@
-import os
 import math
 import collections
 import netaddr
@@ -510,17 +509,3 @@ def strfdelta(tdelta, fmt='{D:02}d {H:02}h {M:02}m {S:02}s', inputtype='timedelt
         if field in desired_fields and field in constants:
             values[field], remainder = divmod(remainder, constants[field])
     return f.format(fmt, **values)
-
-
-def file_exists(parser, arg):
-    """
-    Description here
-
-    :param parser:
-    :param arg:
-    :return:
-    """
-    if not os.path.exists(arg):
-        parser.error("The file %s does not exist." % arg)
-    else:
-        return arg  # return file location

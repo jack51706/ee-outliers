@@ -57,7 +57,7 @@ class SimplequeryAnalyzer(Analyzer):
 
                 logging.logger.debug(fields)
 
-                #outlier = self.create_outlier(fields, doc)
-                #self.process_outlier(outlier)
+                outlier = self.create_outlier(fields, doc)
+                self.process_outlier(outlier)
 
         self.print_analysis_summary()

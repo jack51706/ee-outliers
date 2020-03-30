@@ -54,7 +54,10 @@ class SimplequeryAnalyzer(Analyzer):
                 logging.tick()
                 fields = es.extract_fields_from_document(
                                                 doc, extract_derived_fields=self.model_settings["use_derived_fields"])
-                outlier = self.create_outlier(fields, doc)
-                self.process_outlier(outlier)
+
+                logging.logger.debug("Field I'm intereted in: " + fields["meta.filename"])
+
+                #outlier = self.create_outlier(fields, doc)
+                #self.process_outlier(outlier)
 
         self.print_analysis_summary()

@@ -1,11 +1,11 @@
 import configparser
 import argparse
 import re
-import os
 
 from configparser import NoOptionError, NoSectionError
 
 from helpers.singleton import singleton
+from helpers.utils import file_exists
 
 parser = argparse.ArgumentParser()
 
@@ -14,25 +14,19 @@ interactive_parser = subparsers.add_parser('interactive')
 daemon_parser = subparsers.add_parser('daemon')
 tests_parser = subparsers.add_parser('tests')
 
-
-def is_valid_file(parser, arg):
-    if not os.path.exists(arg):
-        parser.error("No such file: '%s'" % arg)
-    else:
-        return arg  # return file location
-
-
 # Interactive mode - options
-interactive_parser.add_argument("--config", action='append', type=lambda x: is_valid_file(interactive_parser, x),
+interactive_parser.add_argument("--config", action='append', type=lambda x: file_exists(interactive_parser, x),
                                 help="Configuration file location", required=True)
 interactive_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
 
 # Daemon mode - options
-daemon_parser.add_argument("--config", action='append', help="Configuration file location", required=True)
+daemon_parser.add_argument("--config", action='append', type=lambda x: file_exists(daemon_parser, x),
+                           help="Configuration file location", required=True)
 daemon_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
 
 # Tests mode - options
-tests_parser.add_argument("--config", action='append', help="Configuration file location", required=True)
+tests_parser.add_argument("--config", action='append',  type=lambda x: file_exists(tests_parser, x),
+                          help="Configuration file location", required=True)
 tests_parser.add_argument("--use-cases", action='append', help="Additional use cases location", required=True)
 
 

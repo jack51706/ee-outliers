@@ -1,3 +1,4 @@
+import os
 import math
 import collections
 import netaddr
@@ -98,12 +99,12 @@ def kl_divergence(data, baseline_distribution):
 
     distribution = Counter(data)
     data_length = sum(distribution.values())
-    frequencies = {k: v/data_length for k, v in dict(distribution).items()}
+    frequencies = {k: v / data_length for k, v in dict(distribution).items()}
 
     entropy = 0
     for character, frequency in frequencies.items():
         try:
-            entropy += frequency * math.log(frequency/baseline_distribution[character], 2)
+            entropy += frequency * math.log(frequency / baseline_distribution[character], 2)
         except KeyError:
             pass  # trying to calculate the entropy of a character not available in the input distribution, so skip it
 
@@ -492,13 +493,13 @@ def strfdelta(tdelta, fmt='{D:02}d {H:02}h {M:02}m {S:02}s', inputtype='timedelt
     elif inputtype in ['s', 'seconds']:
         remainder = int(tdelta)
     elif inputtype in ['m', 'minutes']:
-        remainder = int(tdelta)*60
+        remainder = int(tdelta) * 60
     elif inputtype in ['h', 'hours']:
-        remainder = int(tdelta)*3600
+        remainder = int(tdelta) * 3600
     elif inputtype in ['d', 'days']:
-        remainder = int(tdelta)*86400
+        remainder = int(tdelta) * 86400
     elif inputtype in ['w', 'weeks']:
-        remainder = int(tdelta)*604800
+        remainder = int(tdelta) * 604800
 
     f = Formatter()
     desired_fields = [field_tuple[1] for field_tuple in f.parse(fmt)]
@@ -509,3 +510,17 @@ def strfdelta(tdelta, fmt='{D:02}d {H:02}h {M:02}m {S:02}s', inputtype='timedelt
         if field in desired_fields and field in constants:
             values[field], remainder = divmod(remainder, constants[field])
     return f.format(fmt, **values)
+
+
+def file_exists(parser, arg):
+    """
+    Description here
+
+    :param parser:
+    :param arg:
+    :return:
+    """
+    if not os.path.exists(arg):
+        parser.error("The file %s does not exist." % arg)
+    else:
+        return arg  # return file location
